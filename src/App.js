@@ -1,26 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import './app.css'
+import { Box } from 'rebass'
+import { Column } from './column'
+import { initialData } from './initial-data'
 
-function App() {
+export const App = () => {
+  const [data, setData] = useState(initialData)
+
+  console.log(data);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <Box>
+      {data.columnOrder.map(columnId => {
+        const column = data.columns[columnId]
+        const tasks = column.taskIds.map(taskId => data.tasks[taskId])
+        console.log(tasks)
+        return <Column key={column.id} column={column} tasks={tasks}/>
+      })}
+    </Box>
+  )
 
-export default App;
+}
