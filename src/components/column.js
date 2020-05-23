@@ -41,11 +41,12 @@ const TaskList = React.forwardRef(({ children, isDraggingOver, ...rest }, ref) =
   </Flex>
 ))
 
-export const Column = ({ column, tasks }) => (
+export const Column = ({ column, tasks, isDropDisabled }) => (
   <Container>
     <Title>{column.title}</Title>
     <Droppable
       droppableId={column.id}
+      isDropDisabled={isDropDisabled || column.disabled}
       type={column.type}
     >
       {(provided, snapshot) => (

@@ -9,9 +9,12 @@ import { initialData } from './initial-data'
 
 export const App = () => {
   const [data, setData] = useState(initialData)
+  const [homeIndex, setHomeIndex] = useState()
 
-  const handleOnDragStart = update => {
-    console.log('handleOnDragStart', update)
+  const handleOnDragStart = start => {
+    console.log('handleOnDragStart', start)
+    const homeIndex = data.columnOrder.indexOf(start.source.droppableId)
+    setHomeIndex(homeIndex)
   }
 
   const handleOnDragUpdate = update => {
@@ -75,9 +78,11 @@ export const App = () => {
       }
       setData(newData)
     }
+    setHomeIndex(null)
   }
 
   console.log(data)
+  console.log(homeIndex)
 
   return (
     <DragDropContext
@@ -92,10 +97,11 @@ export const App = () => {
           grid-template-columns: repeat(${data.columnOrder.length}, minmax(200px, 1fr));
         `}
       >
-        {data.columnOrder.map(columnId => {
+        {data.columnOrder.map((columnId, index) => {
           const column = data.columns[columnId]
           const tasks = column.taskIds.map(taskId => data.tasks[taskId])
-          return <Column key={column.id} column={column} tasks={tasks}/>
+          const isDropDisabled = index < homeIndex
+          return <Column key={column.id} column={column} tasks={tasks} isDropDisabled={isDropDisabled}/>
         })}
       </Box>
     </DragDropContext>
