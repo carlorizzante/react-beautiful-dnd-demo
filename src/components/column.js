@@ -44,7 +44,10 @@ const TaskList = React.forwardRef(({ children, isDraggingOver, ...rest }, ref) =
 export const Column = ({ column, tasks }) => (
   <Container>
     <Title>{column.title}</Title>
-    <Droppable droppableId={column.id}>
+    <Droppable
+      droppableId={column.id}
+      type={column.type}
+    >
       {(provided, snapshot) => (
         <TaskList
           isDraggingOver={snapshot.isDraggingOver}

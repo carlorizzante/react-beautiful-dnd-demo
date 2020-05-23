@@ -11,19 +11,28 @@ export const initialData = {
     'column-1': {
       id: 'column-1',
       title: 'To do',
-      taskIds: ['task-1', 'task-2', 'task-3', 'task-4', 'task-5']
+      taskIds: ['task-1', 'task-2', 'task-3', 'task-4', 'task-5'],
+      type: 'tasks'
     },
     'column-2': {
       id: 'column-2',
       title: 'In progress',
-      taskIds: ['task-6']
+      taskIds: ['task-6'],
+      type: 'tasks'
     },
     'column-3': {
       id: 'column-3',
       title: 'Done',
-      taskIds: []
+      taskIds: [],
+      type: 'tasks'
+    },
+    'column-4': {
+      id: 'column-4',
+      title: 'Disabled',
+      taskIds: [],
+      type: 'disabled'
     },
   },
   // Facilitate reordering of the columns
-  columnOrder: ['column-1', 'column-2', 'column-3']
+  columnOrder: ['column-1', 'column-2', 'column-3', 'column-4']
 }
