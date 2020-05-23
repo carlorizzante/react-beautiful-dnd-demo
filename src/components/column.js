@@ -1,14 +1,15 @@
 import React from 'react'
-import { Box } from 'rebass'
+import { Box, Flex } from 'rebass'
 import { css } from '@emotion/core'
 import { Droppable } from 'react-beautiful-dnd'
 import { Task } from '.'
 import styled from '@emotion/styled'
 
 const Container = React.forwardRef(({ children, ...rest }, ref) => (
-  <Box
+  <Flex
     ref={ref}
     css={css`
+      flex-direction: column;
       margin: 8px;
       padding: 8px 8px 0;
       border: 1px solid lightgrey;
@@ -17,7 +18,7 @@ const Container = React.forwardRef(({ children, ...rest }, ref) => (
     {...rest}
   >
     {children}
-  </Box>
+  </Flex>
 ))
 
 const Title = styled('h2')`
@@ -25,16 +26,19 @@ const Title = styled('h2')`
 `
 
 const TaskList = React.forwardRef(({ children, isDraggingOver, ...rest }, ref) =>(
-  <Box
+  <Flex
     ref={ref}
     css={css`
+      flex: 1;
+      flex-direction: column;
+      min-height: 100px;
       background-color: ${isDraggingOver ? 'skyblue' : 'white'};
       transition: background-color 0.3s;
     `}
     {...rest}
   >
     {children}
-  </Box>
+  </Flex>
 ))
 
 export const Column = ({ column, tasks }) => (
