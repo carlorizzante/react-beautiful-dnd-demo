@@ -24,9 +24,13 @@ const Title = styled('h2')`
   margin-bottom: 8px;
 `
 
-const TaskList = React.forwardRef(({ children, ...rest }, ref) =>(
+const TaskList = React.forwardRef(({ children, isDraggingOver, ...rest }, ref) =>(
   <Box
     ref={ref}
+    css={css`
+      background-color: ${isDraggingOver ? 'skyblue' : 'white'};
+      transition: background-color 0.3s;
+    `}
     {...rest}
   >
     {children}
@@ -37,8 +41,9 @@ export const Column = ({ column, tasks }) => (
   <Container>
     <Title>{column.title}</Title>
     <Droppable droppableId={column.id}>
-      {provided => (
+      {(provided, snapshot) => (
         <TaskList
+          isDraggingOver={snapshot.isDraggingOver}
           ref={provided.innerRef}
           {...provided.droppableProps}
         >
