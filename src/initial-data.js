@@ -2,8 +2,8 @@ export const initialData = {
   tasks: {
     'task-1': { id: 'task-1', content: 'Take out the garbage' },
     'task-2': { id: 'task-2', content: 'Watch my favorite show' },
-    'task-3': { id: 'task-3', content: 'Charge my phone' },
-    'task-4': { id: 'task-4', content: 'Cook dinner' },
+    'task-3': { id: 'task-3', content: 'Charge my phone', isDragDisabled: true },
+    'task-4': { id: 'task-4', content: 'Cook dinner', isDragDisabled: true },
     'task-5': { id: 'task-5', content: 'Go for a run' },
     'task-6': { id: 'task-6', content: 'Do laundry' },
   },
