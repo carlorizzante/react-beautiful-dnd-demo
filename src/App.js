@@ -9,26 +9,16 @@ import { initialData } from './initial-data'
 export const App = () => {
   const [data, setData] = useState(initialData)
 
-  document.body.style.transition = 'background-color 0.2s'
-
   const handleOnDragStart = update => {
     console.log('handleOnDragStart', update)
-    document.body.style.color = 'orange'
   }
+
   const handleOnDragUpdate = update => {
     console.log('handleOnDragUpdate', update)
-    const { destination } = update
-    const opacity = destination
-      ? destination.index / Object.keys(data.tasks).length
-      : 0
-    document.body.style.backgroundColor = `rgba(153,141,217,${opacity})`
   }
 
   const handleOnDragEnd = result => {
-    console.log('handleOnDragEnd', result)
-    document.body.style.color = 'inherit'
-    document.body.style.backgroundColor = 'inherit'
-    
+    console.log('handleOnDragEnd', result)    
     const { destination, source, draggableId } = result
 
     // Dropped outside a droppable
