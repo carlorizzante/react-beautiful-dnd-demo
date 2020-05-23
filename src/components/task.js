@@ -1,24 +1,33 @@
 import React from 'react'
-import { Box } from 'rebass'
+import { Box, Flex } from 'rebass'
 import { css } from '@emotion/core'
 import { Draggable } from 'react-beautiful-dnd'
 
 const Container = React.forwardRef(({ children, isDragging, isDragDisabled, ...rest }, ref) => (
-  <Box
+  <Flex
     ref={ref}
     css={css`
-      margin-bottom: 8px;
+      margin-right: 8px;
       padding: 8px;
-      border: 1px solid lightgrey;
-      border-radius: 3px;
+      width: 75px;
+      height: 75px;
+      justify-content: center;
+      align-items: center;
+      border: 5px solid ${isDragging ? 'red' : 'lightgrey'};
+      border-radius: 50%;
       background-color: ${isDragging ? 'lightcyan' : 'white'};
       background-color: ${isDragDisabled ? 'lightgray' : 'white'};
       transition: background-color 0.3s;
+
+      &:focus {
+        outline: none;
+        border-color: red;
+      }
     `}
     {...rest}
   >
     {children}
-  </Box>
+  </Flex>
 ))
 
 export const Task = ({ id, index, content, isDragDisabled }) => (
@@ -35,7 +44,7 @@ export const Task = ({ id, index, content, isDragDisabled }) => (
         {...provided.draggableProps}
         {...provided.dragHandleProps}
       >
-        {content} {isDragDisabled ? '(disabled)' : null}
+        {content[0]} {isDragDisabled ? '(disabled)' : null}
       </Container>
     )}
   </Draggable>
