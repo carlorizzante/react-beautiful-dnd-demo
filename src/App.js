@@ -13,7 +13,7 @@ export const App = () => {
 
   const handleOnDragStart = start => {
     console.log('handleOnDragStart', start)
-    const homeIndex = data.columnOrder.indexOf(start.source.droppableId)
+    const homeIndex = data.columnsOrder.indexOf(start.source.droppableId)
     setHomeIndex(homeIndex)
   }
 
@@ -94,10 +94,10 @@ export const App = () => {
         css={css`
           display: grid;
           width: 100%;
-          grid-template-columns: repeat(${data.columnOrder.length}, minmax(200px, 1fr));
+          grid-template-columns: repeat(${data.columnsOrder.length}, minmax(200px, 1fr));
         `}
       >
-        {data.columnOrder.map((columnId, index) => {
+        {data.columnsOrder.map((columnId, index) => {
           const column = data.columns[columnId]
           const tasks = column.taskIds.map(taskId => data.tasks[taskId])
           const isDropDisabled = index < homeIndex
