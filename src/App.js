@@ -4,7 +4,7 @@ import { Box, Flex } from 'rebass'
 import { Column } from './components'
 import { css } from '@emotion/core'
 // import { Column } from './stateful-components'
-import { DragDropContext } from 'react-beautiful-dnd'
+import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import { initialData } from './initial-data'
 
 export const App = () => {
@@ -13,7 +13,7 @@ export const App = () => {
 
   const handleOnDragStart = start => {
     console.log('handleOnDragStart', start)
-    const homeIndex = data.columnOrder.indexOf(start.source.droppableId)
+    const homeIndex = data.columnsOrder.indexOf(start.source.droppableId)
     setHomeIndex(homeIndex)
   }
 
@@ -23,13 +23,25 @@ export const App = () => {
 
   const handleOnDragEnd = result => {
     console.log('handleOnDragEnd', result)
-    const { destination, source, draggableId } = result
+    const { destination, source, draggableId, type } = result
 
     // Dropped outside a droppable
     if (!destination) return
 
     // Dropped in the same position as it started
     if (destination.index === source.index && destination.droppableId === source.droppableId) return
+
+    if (type === 'column') {
+      const newColumnsOrder = Array.from(data.columnsOrder)
+      newColumnsOrder.splice(source.index, 1)
+      newColumnsOrder.splice(destination.index, 0, draggableId)
+      const newData = {
+        ...data,
+        columnsOrder: newColumnsOrder,
+      }
+      setData(newData)
+      return
+    }
 
     const startColumn = data.columns[source.droppableId]
     const endColumn = data.columns[destination.droppableId]
@@ -90,20 +102,35 @@ export const App = () => {
       onDragUpdate={handleOnDragUpdate}
       onDragEnd={handleOnDragEnd}
     >
-      <Box
-        css={css`
-          display: grid;
-          width: 100%;
-          grid-template-columns: repeat(${data.columnOrder.length}, minmax(200px, 1fr));
-        `}
-      >
-        {data.columnOrder.map((columnId, index) => {
-          const column = data.columns[columnId]
-          const tasks = column.taskIds.map(taskId => data.tasks[taskId])
-          const isDropDisabled = index < homeIndex
-          return <Column key={column.id} column={column} tasks={tasks} isDropDisabled={isDropDisabled}/>
-        })}
-      </Box>
+      <Droppable droppableId="all-columns" direction="horizontal" type="column">
+        {(provided) => (
+          <Box
+            css={css`
+              display: grid;
+              width: 100%;
+              grid-template-columns: repeat(${data.columnsOrder.length}, minmax(200px, 1fr));
+            `}
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+          >
+            {data.columnsOrder.map((columnId, index) => {
+              const column = data.columns[columnId]
+              const tasks = column.taskIds.map(taskId => data.tasks[taskId])
+              const isDropDisabled = index < homeIndex
+              return (
+                <Column
+                  column={column}
+                  index={index}
+                  isDropDisabled={isDropDisabled}
+                  key={column.id}
+                  tasks={tasks}
+                />
+              )
+            })}
+            {provided.placeholder}
+          </Box>
+        )}
+      </Droppable>
     </DragDropContext>
   )
 
